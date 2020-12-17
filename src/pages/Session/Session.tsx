@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropResult } from 'react-beautiful-dnd';
+import { FaChevronLeft } from 'react-icons/fa';
 import { RootState } from '../../app/store';
 import { Interval } from '../../types/Session';
 import { addSession } from '../../app/sessionsSlice';
@@ -14,6 +15,7 @@ const getSession = (id?: string) => (state: RootState) =>
 
 export function Session() {
   const params = useParams<{ id?: string }>();
+  const history = useHistory();
   const dispatch = useDispatch();
   const session = useSelector(getSession(params.id));
   const [name, setName] = useState(session?.name || '');
@@ -33,38 +35,54 @@ export function Session() {
   }
 
   return (
-    <>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+    <div className="min-h-screen">
+      <div className="container py-8">
+        <div className="flex items-center mb-6">
+          <Link to={'/sessions'} className="text-2xl pr-5">
+            <FaChevronLeft />
+          </Link>
 
-      <Selectors
-        onAdd={(newInterval) => void setIntervals([...intervals, newInterval])}
-      />
-
-      <hr />
-      <List onDragEnd={onDragEnd}>
-        {intervals.map((interval, i) => (
-          <Item
-            key={interval.id}
-            index={i}
-            interval={interval}
-            onRemove={(id) => {
-              setIntervals(intervals.filter((interval) => id !== interval.id));
-            }}
+          <input
+            className="w-full py-2 border-b border-gray-300 font-bold text-lg"
+            placeholder="Add a Session Name..."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-        ))}
-      </List>
+        </div>
+
+        <Selectors
+          onAdd={(newInterval) => {
+            setIntervals([...intervals, newInterval]);
+          }}
+        />
+
+        <List onDragEnd={onDragEnd}>
+          {intervals.map((interval, i) => (
+            <Item
+              key={interval.id}
+              index={i}
+              interval={interval}
+              onRemove={(id) => {
+                setIntervals(
+                  intervals.filter((interval) => id !== interval.id)
+                );
+              }}
+            />
+          ))}
+        </List>
+      </div>
 
       <button
+        className="fixed bottom-0 w-full px-8 py-4 bg-blue-500 text-white disabled:opacity-50"
         disabled={!name || intervals.length === 0}
         onClick={() => {
           const id = params.id || String(+new Date());
           dispatch(addSession({ id, name, intervals }));
+          history.goBack();
         }}
       >
-        Save session
+        Save Session
       </button>
-
-      <Link to={'/sessions'}>Back</Link>
-    </>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Select from 'react-dropdown';
+import { FaPlus } from 'react-icons/fa';
 import { Exercise, Interval } from '../../types/Session';
+import { Dropdown } from './Dropdown';
 
 const exercises: Exercise[] = ['flex & flow', 'strong stretch', 'HIIT'];
 const durations = ['15', '30', '45', '60'];
@@ -14,41 +15,32 @@ const initialState: State = {
 
 export function Selectors(props: SelectorsProps) {
   const [state, setState] = useState(initialState);
+  const disabled = !state.exercise || !state.duration;
 
   return (
     <>
-      <Select
-        placeholder="Add Exercise"
+      <Dropdown
+        placeholder="Exercise"
         options={exercises}
         value={state.exercise}
-        onChange={(e) => {
-          if (!e) return;
-          setState({ ...state, exercise: e.value });
-        }}
+        onChange={(value) => void setState({ ...state, exercise: value })}
       />
-      <br />
-      <Select
-        placeholder="Add Duration"
+      <Dropdown
+        placeholder="Duration"
         options={durations}
         value={state.duration}
-        onChange={(e) => {
-          if (!e) return;
-          setState({ ...state, duration: Number(e.value) });
-        }}
+        onChange={(value) => void setState({ ...state, duration: value })}
       />
-      <br />
-      <Select
-        placeholder="Add Rest Period"
+      <Dropdown
+        placeholder="Rest"
         options={durations}
         value={state.restDuration}
-        onChange={(e) => {
-          if (!e) return;
-          setState({ ...state, restDuration: Number(e.value) });
-        }}
+        onChange={(value) => void setState({ ...state, restDuration: value })}
       />
-      <br />
+
       <button
-        disabled={!state.exercise || !state.duration}
+        className="w-full flex items-center justify-center px-8 py-4 text-md text-white bg-primary-default disabled:opacity-50"
+        disabled={disabled}
         onClick={() => {
           const newInterval = { ...state, id: String(+new Date()) } as Interval;
 
@@ -56,7 +48,8 @@ export function Selectors(props: SelectorsProps) {
           setState(initialState);
         }}
       >
-        Add
+        <FaPlus className="mr-2" /> Add{' '}
+        {disabled ? 'Exercise & Duration' : 'Session'}
       </button>
     </>
   );

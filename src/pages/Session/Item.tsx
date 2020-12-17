@@ -1,21 +1,32 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { FaTrashAlt } from 'react-icons/fa';
 import { Interval } from '../../types/Session';
 
 export function Item(props: ItemProps) {
-  const { index, interval, onRemove } = props;
+  const {
+    index,
+    onRemove,
+    interval: { id, exercise, duration, restDuration },
+  } = props;
 
   return (
-    <Draggable draggableId={interval.id} index={index}>
+    <Draggable draggableId={id} index={index}>
       {(provided) => (
         <div
+          className="flex items-center justify-between py-3 border-b"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {interval.exercise}, {interval.duration}min, rest:{' '}
-          {interval.restDuration}
-          <button onClick={() => void onRemove(interval.id)}>remove</button>
+          <div>
+            <strong>{exercise}</strong> - {duration}min
+            {restDuration && ` - ${restDuration}min rest`}
+          </div>
+
+          <button onClick={() => void onRemove(id)}>
+            <FaTrashAlt />
+          </button>
         </div>
       )}
     </Draggable>
