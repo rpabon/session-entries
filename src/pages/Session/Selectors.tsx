@@ -26,6 +26,7 @@ export function Selectors(props: SelectorsProps) {
           setState({ ...state, exercise: e.value });
         }}
       />
+      <br />
       <Select
         placeholder="Add Duration"
         options={durations}
@@ -35,6 +36,7 @@ export function Selectors(props: SelectorsProps) {
           setState({ ...state, duration: Number(e.value) });
         }}
       />
+      <br />
       <Select
         placeholder="Add Rest Period"
         options={durations}
@@ -44,7 +46,7 @@ export function Selectors(props: SelectorsProps) {
           setState({ ...state, restDuration: Number(e.value) });
         }}
       />
-
+      <br />
       <button
         disabled={!state.exercise || !state.duration}
         onClick={() => {

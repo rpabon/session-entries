@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { selectSessions } from '../../app/sessionsSlice';
 
 export function Sessions() {
-  const { sessions } = useSelector(selectSessions);
+  const sessions = useSelector(selectSessions);
 
   return (
     <>
@@ -12,7 +12,9 @@ export function Sessions() {
       <hr />
       <ul>
         {sessions.map(({ id, name }) => (
-          <li key={id}>{name}</li>
+          <li key={id}>
+            <Link to={`/session/${id}`}>{name}</Link>
+          </li>
         ))}
       </ul>
     </>

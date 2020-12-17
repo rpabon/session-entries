@@ -8,6 +8,7 @@ export function List(props: ListProps) {
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {props.children}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>

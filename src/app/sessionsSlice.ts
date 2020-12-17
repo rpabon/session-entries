@@ -2,20 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { Session } from '../types/Session';
 
-interface SessionsState {
-  sessions: Session[];
-}
-
-const initialState: SessionsState = {
-  sessions: [],
-};
-
 export const sessionsSlice = createSlice({
   name: 'sessions',
-  initialState,
+  initialState: [] as Session[],
   reducers: {
-    addSession(state, action: PayloadAction<Session>) {
-      state.sessions.push(action.payload);
+    addSession(state, { payload }: PayloadAction<Session>) {
+      const index = state.findIndex((session) => session.id === payload.id);
+
+      if (index >= 0) {
+        state.splice(index, 1, payload);
+      } else {
+        state.push(payload);
+      }
     },
   },
 });

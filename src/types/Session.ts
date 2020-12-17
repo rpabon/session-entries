@@ -8,10 +8,7 @@ export interface Interval {
 }
 
 export interface Session {
-  id: number;
+  id: string;
   name: string;
-  start: string;
-  end: string;
   intervals: Interval[];
-  rests: number[];
 }
