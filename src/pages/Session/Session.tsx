@@ -9,6 +9,7 @@ import { addSession } from '../../app/sessionsSlice';
 import { List } from './List';
 import { Item } from './Item';
 import { Selectors } from './Selectors';
+import { BottomButton } from '../../components/BottomButton';
 
 const getSession = (id?: string) => (state: RootState) =>
   state.sessions.find((session) => session.id === id);
@@ -73,8 +74,7 @@ export function Session() {
         </List>
       </div>
 
-      <button
-        className="fixed bottom-0 w-full px-8 py-4 bg-blue-500 text-white disabled:opacity-50"
+      <BottomButton
         disabled={disabled}
         onClick={() => {
           const id = params.id || String(+new Date());
@@ -84,7 +84,7 @@ export function Session() {
       >
         {disabled && <FaBan className="inline-block mr-2" />}
         {disabled ? 'Add Name / Routines' : 'Save Session'}
-      </button>
+      </BottomButton>
     </div>
   );
 }

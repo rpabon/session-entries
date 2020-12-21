@@ -1,26 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { motion, useAnimation } from 'framer-motion';
 import { FaChevronRight } from 'react-icons/fa';
 import { selectSessions } from '../../app/sessionsSlice';
-
-const variants = {
-  initial: {
-    opacity: 1,
-    scaleY: 1,
-  },
-  grow: {
-    scaleY: 25,
-    opacity: 0,
-    color: 'transparent',
-  },
-};
+import { BottomButton } from '../../components/BottomButton';
 
 export function Sessions() {
   const sessions = useSelector(selectSessions);
   const history = useHistory();
-  const controls = useAnimation();
 
   return (
     <div className="min-h-screen">
@@ -49,18 +36,9 @@ export function Sessions() {
         )}
       </div>
 
-      <motion.button
-        variants={variants}
-        initial="initial"
-        animate={controls}
-        className="fixed bottom-0 w-full px-8 py-4 bg-blue-500 text-white"
-        onClick={async () => {
-          await controls.start('grow');
-          history.push('/session');
-        }}
-      >
+      <BottomButton onClick={() => void history.push('/session')}>
         Add New Session
-      </motion.button>
+      </BottomButton>
     </div>
   );
 }
