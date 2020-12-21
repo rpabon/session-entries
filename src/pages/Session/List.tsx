@@ -6,7 +6,11 @@ export function List(props: ListProps) {
     <DragDropContext onDragEnd={props.onDragEnd}>
       <Droppable droppableId="list">
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
+          <div
+            className="pt-4"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
             {props.children}
             {provided.placeholder}
           </div>

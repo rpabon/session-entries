@@ -1,6 +1,6 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaEllipsisV, FaTrashAlt } from 'react-icons/fa';
 import { Interval } from '../../types/Session';
 
 export function Item(props: ItemProps) {
@@ -20,8 +20,9 @@ export function Item(props: ItemProps) {
           {...provided.dragHandleProps}
         >
           <div>
-            <strong>{exercise}</strong> - {duration}min
-            {restDuration && ` - ${restDuration}min rest`}
+            <FaEllipsisV className="text-xs inline" />{' '}
+            <strong>{exercise}</strong> ({duration}min)
+            {restDuration && ` - Rest ${restDuration}min`}
           </div>
 
           <button onClick={() => void onRemove(id)}>

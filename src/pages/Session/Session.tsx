@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DropResult } from 'react-beautiful-dnd';
-import { FaChevronLeft } from 'react-icons/fa';
+import { FaBan, FaChevronLeft } from 'react-icons/fa';
 import { RootState } from '../../app/store';
 import { Interval } from '../../types/Session';
 import { addSession } from '../../app/sessionsSlice';
@@ -22,6 +22,7 @@ export function Session() {
   const [intervals, setIntervals] = useState<Interval[]>(
     session?.intervals || []
   );
+  const disabled = !name || intervals.length === 0;
 
   function onDragEnd({ source, destination }: DropResult) {
     if (!destination || destination.index === source.index) {
@@ -74,14 +75,15 @@ export function Session() {
 
       <button
         className="fixed bottom-0 w-full px-8 py-4 bg-blue-500 text-white disabled:opacity-50"
-        disabled={!name || intervals.length === 0}
+        disabled={disabled}
         onClick={() => {
           const id = params.id || String(+new Date());
           dispatch(addSession({ id, name, intervals }));
           history.goBack();
         }}
       >
-        Save Session
+        {disabled && <FaBan className="inline-block mr-2" />}
+        {disabled ? 'Add Name / Routines' : 'Save Session'}
       </button>
     </div>
   );

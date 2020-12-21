@@ -1,11 +1,26 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { motion, useAnimation } from 'framer-motion';
 import { FaChevronRight } from 'react-icons/fa';
 import { selectSessions } from '../../app/sessionsSlice';
 
+const variants = {
+  initial: {
+    opacity: 1,
+    scaleY: 1,
+  },
+  grow: {
+    scaleY: 25,
+    opacity: 0,
+    color: 'transparent',
+  },
+};
+
 export function Sessions() {
   const sessions = useSelector(selectSessions);
+  const history = useHistory();
+  const controls = useAnimation();
 
   return (
     <div className="min-h-screen">
@@ -14,7 +29,9 @@ export function Sessions() {
           Session <span className="text-gray-500">List</span>
         </h1>
 
-        {sessions.length === 0 && <p>No sessions saved</p>}
+        {sessions.length === 0 && (
+          <p className="text-xl text-center pt-24">No sessions saved</p>
+        )}
 
         {sessions.length > 0 && (
           <ul className="border-t text-lg">
@@ -32,11 +49,18 @@ export function Sessions() {
         )}
       </div>
 
-      <Link to={'/session'} className="w-full fixed bottom-0">
-        <button className="w-full px-8 py-4 bg-blue-500 text-white">
-          Add New Session
-        </button>
-      </Link>
+      <motion.button
+        variants={variants}
+        initial="initial"
+        animate={controls}
+        className="fixed bottom-0 w-full px-8 py-4 bg-blue-500 text-white"
+        onClick={async () => {
+          await controls.start('grow');
+          history.push('/session');
+        }}
+      >
+        Add New Session
+      </motion.button>
     </div>
   );
 }

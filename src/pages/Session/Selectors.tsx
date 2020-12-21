@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaBan } from 'react-icons/fa';
 import { Exercise, Interval } from '../../types/Session';
 import { Dropdown } from './Dropdown';
 
@@ -48,8 +48,8 @@ export function Selectors(props: SelectorsProps) {
           setState(initialState);
         }}
       >
-        <FaPlus className="mr-2" /> Add{' '}
-        {disabled ? 'Exercise & Duration' : 'Session'}
+        {disabled ? <FaBan className="mr-2" /> : <FaPlus className="mr-2" />}Add{' '}
+        {disabled ? 'Exercise / Duration' : 'Session'}
       </button>
     </>
   );
